@@ -27,19 +27,22 @@ export default function Home() {
         city="Singapore" 
         imageSrc={singaporeImage} 
         selected={selected} 
-        handleHotelClick={handleHotelClick} 
+        handleHotelClick={handleHotelClick}
+        description="Entdecken Sie die Schönheit von Singapur im Marina Bay Sands Hotel, dem perfekten Ort für Ihren Urlaub.&nbsp;🌟🏖️🌊"
       />
       <Hotel 
         city="Berlin" 
         imageSrc={berlinImage} 
         selected={selected} 
         handleHotelClick={handleHotelClick} 
+        description="Erleben Sie die Geschichte und Kultur von Berlin im Hotel Adlon Kempinski, dem perfekten Ort für Ihren Städtetrip.&nbsp;🌟🏰🌳"
       />
       <Hotel 
         city="Los Angeles" 
         imageSrc={losAngelesImage} 
         selected={selected} 
         handleHotelClick={handleHotelClick} 
+        description="Erleben Sie Luxus und Stil im Herzen von Los Angeles im Hotel California, perfekt gelegen für Ihren Stadtaufenthalt.&nbsp;🌟🌴🏙️"
       />
     </div>
   );
