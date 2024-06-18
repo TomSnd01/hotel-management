@@ -6,3 +6,7 @@
 .text-stroke-3 {
     text-shadow: -3px -3px 0 black, 3px -3px 0 black, -3px 3px 0 black, 3px 3px 0 black;
 }
+
+body {
+    background-color: #3d302b;
+}
