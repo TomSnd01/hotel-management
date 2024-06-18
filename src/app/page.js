@@ -12,8 +12,17 @@ export default function Home() {
     setHotel(selected === city ? null : city);
   };
 
+  const cityClasses = {
+    Singapore: 'justify-start',
+    Berlin: 'justify-center',
+    'Los Angeles': 'justify-end'
+  };
+
   return (
-    <div className="flex h-[100vh] relative group/hotels">
+    <div className={`
+      flex h-[100vh] relative group/hotels
+      ${cityClasses[selected] || ''}
+    `}>
       <Hotel 
         city="Singapore" 
         imageSrc={singaporeImage} 
