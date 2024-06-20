@@ -168,6 +168,7 @@ const Hotel = ({ city, imageSrc, selected, handleHotelClick, description }) => {
             <button 
               className={`${getClass(city, 'bgcolor')} hover:bg-white border-8 ${getClass(city, 'borderHover')} transition-all duration-100 uppercase w-full p-5 rounded-b-3xl font-mono !cursor-pointer`}
               onClick={() => setDialogPage(2)}
+              // Example URL for fetch: http://localhost:3000/rooms?hotelName=Berlin&selectedAusstattungen=Badewanne,Wi-Fi,Balkon
             >Book Now 🛎️</button>
           </div> }
 
