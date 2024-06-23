@@ -13,22 +13,27 @@ export async function GET(req, res) {
 
     const url = new URL(req.url)
 
-    const hotelName = url.searchParams.get("hotelName")
+    let hotelName = url.searchParams.get("hotelName")
+    if (hotelName == "Los Angeles") {hotelName = "Los_Angeles"}
     const selectedAusstattungenString = url.searchParams.get('selectedAusstattungen');
-    console.log(selectedAusstattungenString)
     const selectedAusstattungen = selectedAusstattungenString ? selectedAusstattungenString.split(',') : [];
 
     const placeholders = selectedAusstattungen.map(() => '?').join(', ');
     const numSelected = selectedAusstattungen.length;
 
-    console.log(hotelName);
+    const checkIn = url.searchParams.get("checkIn");
+    const checkOut = url.searchParams.get("checkOut");
+    const firstName = url.searchParams.get("firstName");
+    const lastName = url.searchParams.get("lastName");
+    const email = url.searchParams.get("email");
+    const phone = url.searchParams.get("phone");
+    const roomType = url.searchParams.get("roomType");
+    let selectedRoom = 0;
+    let preis = 100;
 
-    const sql = `
+    const roomFilter = `
     SELECT 
-        z.ZimmerID, 
-        z.HotelID, 
-        z.Zimmernummer, 
-        z.ZimmerTyp, 
+        z.ZimmerID,
         z.Preis
     FROM 
         Zimmer z
@@ -48,13 +53,49 @@ export async function GET(req, res) {
         h.HotelName = ?
     AND 
         a.Beschreibung IN (${placeholders}) 
+    AND
+        z.ZimmerTyp = ?
     GROUP BY 
-        z.ZimmerID, z.HotelID, z.Zimmernummer, z.ZimmerTyp, z.Preis
+        z.ZimmerID 
     HAVING 
         COUNT(DISTINCT a.Beschreibung) = ?
     `;
 
-    const rooms = await db.all(sql, hotelName, ...selectedAusstattungen, numSelected);
+    const rooms = await db.all(roomFilter, hotelName, ...selectedAusstattungen, roomType, numSelected);
+    if (Object.keys(rooms).length > 0) {
+        selectedRoom = rooms[0].ZimmerID;
+        preis = rooms[0].Preis;
+    }
+
+    const kundenSql = `
+    INSERT INTO Kunden (Vorname, Nachname, Email, Telefonnummer)
+    VALUES (?, ?, ?, ?)
+    `;
+
+    await db.run(kundenSql, firstName, lastName, email, phone);
+
+    const result = await db.get("SELECT last_insert_rowid() as KundeID");
+    const kundeID = result.KundeID;
+
+    const buchungenSql = `
+    INSERT INTO Buchungen (KundeID, ZimmerID, CheckInDatum, CheckOutDatum, Gesamtpreis)
+        VALUES (?, ?, ?, ?, ?)
+    `
+
+    const startDate = new Date(checkIn);
+    const endDate = new Date(checkOut);
+    const diffMs = endDate - startDate;
+    const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+    const gesamtPreis = diffDays * preis;
+
+
+    console.log(checkIn)
+    console.log(diffMs)
+    console.log(diffDays)
+    console.log(preis)
+    console.log(gesamtPreis)
+
+    await db.run(buchungenSql, kundeID, selectedRoom, checkIn, checkOut, gesamtPreis)
 
     return new Response(JSON.stringify(rooms), {
         headers: { "Content-Type": "application/json" },

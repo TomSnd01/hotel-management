@@ -2,7 +2,36 @@ import React, { useState } from 'react';
 
 const Dialog = ({ city, description, getClass, selected, setDialogPage, dialogPage, selectedRoom, setSelectedRoom }) => {
     const handleRoomClick = (room) => {
-        setSelectedRoom(room);
+        setSelectedRoom(room)
+    };
+
+    const [checkInValue, setCheckInValue] = useState('');
+    const handleCheckInChange = (e) => {setCheckInValue(e.target.value)} 
+    const [checkOutValue, setCheckOutValue] = useState('');
+    const handleCheckOutChange = (e) => {setCheckOutValue(e.target.value)} 
+    const [firstNameValue, setFirstNameValue] = useState('');
+    const handleFirstNameChange = (e) => {setFirstNameValue(e.target.value)} 
+    const [lastNameValue, setLastNameValue] = useState('');
+    const handleLastNameChange = (e) => {setLastNameValue(e.target.value)} 
+    const [emailValue, setEmailValue] = useState('');
+    const handleEmailChange = (e) => {setEmailValue(e.target.value)} 
+    const [phoneValue, setPhoneValue] = useState('');
+    const handlePhoneChange = (e) => {setPhoneValue(e.target.value)} 
+
+    const handleBookingClick = () => {
+        setDialogPage(2); 
+
+        const wifi = document.getElementById('wifi');
+        const balcony = document.getElementById('balcony');
+        const seaview = document.getElementById('seaview');
+        const bathtub = document.getElementById('bathtub');
+
+        fetch(`http://localhost:3000/rooms?hotelName=${city}&selectedAusstattungen=${wifi.checked ? "Wi-Fi" : ""},${balcony.checked ? "Balkon" : ""},${seaview.checked ? "Meerblick" : ""},${bathtub.checked ? "Badewanne" : ""}&roomType=${selectedRoom}&checkIn=${checkInValue}&checkOut=${checkOutValue}&firstName=${firstNameValue}&lastName=${lastNameValue}&email=${emailValue}&phone=${phoneValue}`)
+            .then((response) => response.text())
+            .then((body) => {
+                console.log(body);
+            });
+
     };
 
     return (
@@ -26,23 +55,27 @@ const Dialog = ({ city, description, getClass, selected, setDialogPage, dialogPa
                     <form className="grid grid-cols-2 gap-4">
                         <div>
                             <label htmlFor="from" className="uppercase block font-medium text-black ml-4 text-[calc(1.0625rem)]">From</label>
-                            <input type="date" id="from" name="from" className="mt-1 p-3 w-full border border-black rounded-3xl"/>
+                            <input onChange={handleCheckInChange} type="date" id="from" name="from" className="mt-1 p-3 w-full border border-black rounded-3xl"/>
                         </div>
                         <div>
                             <label htmlFor="to" className="uppercase block font-medium text-black ml-4 text-[calc(1.0625rem)]">To</label>
-                            <input type="date" id="to" name="to" className="mt-1 p-3 w-full border border-black rounded-3xl"/>
+                            <input onChange={handleCheckOutChange} type="date" id="to" name="to" className="mt-1 p-3 w-full border border-black rounded-3xl"/>
                         </div>
                         <div>
-                            <label htmlFor="name" className="uppercase block font-medium text-black ml-4 text-[calc(1.0625rem)]">Name</label>
-                            <input type="text" id="name" name="name" className="mt-1 p-3 w-full border border-black rounded-3xl"/>
+                            <label htmlFor="firstName" className="uppercase block font-medium text-black ml-4 text-[calc(1.0625rem)]">First Name</label>
+                            <input onChange={handleFirstNameChange} type="text" id="firstName" name="firstName" className="mt-1 p-3 w-full border border-black rounded-3xl"/>
+                        </div>
+                        <div>
+                            <label htmlFor="lastName" className="uppercase block font-medium text-black ml-4 text-[calc(1.0625rem)]">Last Name</label>
+                            <input onChange={handleLastNameChange} type="text" id="lastName" name="lastName" className="mt-1 p-3 w-full border border-black rounded-3xl"/>
                         </div>
                         <div>
                             <label htmlFor="email" className="uppercase block font-medium text-black ml-4 text-[calc(1.0625rem)]">E-Mail</label>
-                            <input type="email" id="email" name="email" className="mt-1 p-3 w-full border border-black rounded-3xl"/>
+                            <input onChange={handleEmailChange} type="email" id="email" name="email" className="mt-1 p-3 w-full border border-black rounded-3xl"/>
                         </div>
                         <div className="col-span-2">
                             <label htmlFor="phone" className="uppercase block font-medium text-black ml-4 text-[calc(1.0625rem)]">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" className="mt-1 p-3 w-full border border-black rounded-3xl"/>
+                            <input onChange={handlePhoneChange} type="tel" id="phone" name="phone" className="mt-1 p-3 w-full border border-black rounded-3xl"/>
                         </div>
                     </form>
                 </div>
@@ -57,7 +90,7 @@ const Dialog = ({ city, description, getClass, selected, setDialogPage, dialogPa
                 <div className={`font-mono bg-gray-300 rounded-t-3xl px-10 pt-20 flex flex-col w-full h-[1000px] max-h-[500px]`}>
                     <div className={`${getClass(city, 'bgcolor')} px-5 py-2 rounded-t-3xl border-x border-t border-1 border-black text-center`}>Rooms 🔑</div>
                     <div className={`flex flex-col bg-white border rounded-b-3xl border-1 border-black h-96 max-h-48 overflow-y-scroll`}>
-                        {['Einzel-zimmer 🛏️', 'Doppel-Zimmer 🛏️ 🛏️', 'Suiten 🏨'].map((room) => (
+                        {['Einzelzimmer', 'Doppelzimmer️', 'Suiten'].map((room) => (
                         <div
                             key={room}
                             className={`px-5 p-2 border-b border-1 border-black cursor-pointer ${selectedRoom === room ? getClass(city, 'bgcolorLight') : ''}`}
@@ -93,7 +126,7 @@ const Dialog = ({ city, description, getClass, selected, setDialogPage, dialogPa
 
                 <button 
                 className={`${getClass(city, 'bgcolor')} hover:bg-white border-8 ${getClass(city, 'borderHover')} transition-all duration-100 uppercase w-full p-5 rounded-b-3xl font-mono !cursor-pointer`}
-                onClick={() => setDialogPage(2)}
+                onClick={() => handleBookingClick()}
                 >Book Now 🛎️</button>
             </div> }
 
