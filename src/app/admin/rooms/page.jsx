@@ -120,7 +120,7 @@ export default function Rooms() {
                 <div className={`flex w-full justify-center w-2/5`}>{booking.country}</div>
                 <div className={`flex w-full w-3/5 justify-start`}>{booking.roomType}</div>
                 <div className={`flex w-full justify-center w-2/5`}>{booking.amenities}</div>
-                <div className={`flex w-full w-3/5 justify-start`}>{booking.dates}</div>
+                <div className={`flex w-full w-3/5 justify-start`}>🗓️ {booking.dates}</div>
               </div>
             ))}
           </div>
