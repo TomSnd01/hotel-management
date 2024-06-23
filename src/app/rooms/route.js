@@ -88,13 +88,6 @@ export async function GET(req, res) {
     const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
     const gesamtPreis = diffDays * preis;
 
-
-    console.log(checkIn)
-    console.log(diffMs)
-    console.log(diffDays)
-    console.log(preis)
-    console.log(gesamtPreis)
-
     await db.run(buchungenSql, kundeID, selectedRoom, checkIn, checkOut, gesamtPreis)
 
     return new Response(JSON.stringify(rooms), {
