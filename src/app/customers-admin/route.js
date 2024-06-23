@@ -17,11 +17,6 @@ export async function GET(req, res) {
     const checkOut = url.searchParams.get("checkOut")
     const countBookings = parseInt(url.searchParams.get("countBookings"))
 
-    console.log(checkIn)
-    console.log(checkOut)
-    console.log(countBookings)
-
-
     const sql = `
         SELECT 
             Kunden.Vorname,

@@ -28,7 +28,7 @@ export async function GET(req, res) {
     const email = url.searchParams.get("email");
     const phone = url.searchParams.get("phone");
     const roomType = url.searchParams.get("roomType");
-    let selectedRoom = 0;
+    let selectedRoom = 1;
     let preis = 100;
 
     const roomFilter = `
