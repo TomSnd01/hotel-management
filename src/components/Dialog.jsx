@@ -26,7 +26,7 @@ const Dialog = ({ city, description, getClass, selected, setDialogPage, dialogPa
         const seaview = document.getElementById('seaview');
         const bathtub = document.getElementById('bathtub');
 
-        fetch(`http://localhost:3000/rooms?hotelName=${city}&selectedAusstattungen=${wifi.checked ? "Wi-Fi" : ""},${balcony.checked ? "Balkon" : ""},${seaview.checked ? "Meerblick" : ""},${bathtub.checked ? "Badewanne" : ""}&roomType=${selectedRoom}&checkIn=${checkInValue}&checkOut=${checkOutValue}&firstName=${firstNameValue}&lastName=${lastNameValue}&email=${emailValue}&phone=${phoneValue}`)
+        fetch(`http://193.31.27.54:3000/rooms?hotelName=${city}&selectedAusstattungen=${wifi.checked ? "Wi-Fi" : ""},${balcony.checked ? "Balkon" : ""},${seaview.checked ? "Meerblick" : ""},${bathtub.checked ? "Badewanne" : ""}&roomType=${selectedRoom}&checkIn=${checkInValue}&checkOut=${checkOutValue}&firstName=${firstNameValue}&lastName=${lastNameValue}&email=${emailValue}&phone=${phoneValue}`)
             .then((response) => response.text())
             .then((body) => {
                 console.log(body);

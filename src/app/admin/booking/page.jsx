@@ -17,7 +17,7 @@ export default function Booking() {
 
   useEffect(() => {
     const fetchCustomers = async () => {
-      const response = await fetch(`http://localhost:3000/customers-admin?checkIn=${checkIn}&checkOut=${checkOut}&countBookings=${countBookings}`);
+      const response = await fetch(`http://193.31.27.54:3000/customers-admin?checkIn=${checkIn}&checkOut=${checkOut}&countBookings=${countBookings}`);
       const data = await response.json();
       const formattedData = data.map(customer => ({
         name: `${customer.Vorname} ${customer.Nachname}`,

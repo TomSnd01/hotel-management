@@ -34,7 +34,7 @@ export default function Rooms() {
 
   useEffect(() => {
     const fetchBookings = async () => {
-      const response = await fetch(`http://localhost:3000/rooms-admin?hotelName=${hotelName}&checkIn=${checkIn}&checkOut=${checkOut}`);
+      const response = await fetch(`http://193.31.27.54:3000/rooms-admin?hotelName=${hotelName}&checkIn=${checkIn}&checkOut=${checkOut}`);
       const data = await response.json();
       const formattedData = data.map(booking => ({
         country: cityEmojis[hotelName],
